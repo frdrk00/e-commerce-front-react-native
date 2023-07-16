@@ -1,5 +1,12 @@
-import { View, Image, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import {
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native'
+import { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialIcons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
@@ -7,6 +14,7 @@ import { Screen3 } from '../assets'
 
 const HomeScreen = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSearchTerm = (text) => {
     setSearchTerm(text)
@@ -39,6 +47,17 @@ const HomeScreen = () => {
           <FontAwesome name="filter" size={24} color="#7f7f7f" />
         </TouchableOpacity>
       </View>
+
+      {/* Scrollable */}
+      <ScrollView className="flex-1 w-full h-full">
+        {isLoading ? (
+          <View className="flex-1 h-80 items-center justify-center">
+            <ActivityIndicator size={'large'} color={'teal'} />
+          </View>
+        ) : (
+          <></>
+        )}
+      </ScrollView>
     </SafeAreaView>
   )
 }
