@@ -2,7 +2,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Provider } from 'react-redux'
 
-import { HomeScreen, OnBoardingScreen, ProductScreen } from './screens'
+import { CartScreen, HomeScreen, OnBoardingScreen, ProductScreen } from './screens'
 import { BottomTab } from './components'
 
 import store from './context/store'
@@ -37,6 +37,7 @@ export default function App() {
           <Stack.Screen name="OnBoarding" component={OnBoardingScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="ProductScreen" component={ProductScreen} />
+          <Stack.Screen name="CartScreen" component={CartScreen} />
         </Stack.Navigator>
       </Provider>
 
