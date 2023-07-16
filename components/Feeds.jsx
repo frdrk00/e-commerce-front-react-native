@@ -1,5 +1,5 @@
 import { View, Text, ActivityIndicator } from 'react-native'
-import { FeedDetails } from '../components'
+import FeedDetails from './FeedDetails'
 
 const Feeds = ({ feeds }) => {
   return (

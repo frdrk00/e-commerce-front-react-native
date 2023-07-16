@@ -10,18 +10,22 @@ import {
   Image,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addtocart } from '../context/actions/cartActions'
 
 const ProductScreen = ({ route }) => {
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+
   const { _id } = route.params
   // console.log('ID: ', _id)
 
+  const cartItems = useSelector((state) => state.cartItems)
   const feeds = useSelector((state) => state.feeds)
+
   const [data, setData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [qty, setQty] = useState(1);
-  
-  const navigation = useNavigation()
+  const [qty, setQty] = useState(1)
 
   const screenHeight = Math.round(Dimensions.get('window').height)
 
@@ -39,6 +43,10 @@ const ProductScreen = ({ route }) => {
   const handleQty = (action) => {
     const newQty = qty + action
     setQty(newQty >= 1 ? newQty : 1)
+  }
+
+  const handlePressCart = () => {
+    dispatch(addtocart({ data: data, qty: qty }))
   }
 
   return (
@@ -132,11 +140,23 @@ const ProductScreen = ({ route }) => {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity className="bg-black px-4 py-2 rounded-xl">
-                <Text className="text-base font-semibold text-gray-50">
-                  Added
-                </Text>
-              </TouchableOpacity>
+              {cartItems?.cart?.filter((item) => item?.data?._id === data?._id)
+                ?.length > 0 ? (
+                <TouchableOpacity className="bg-black px-4 py-2 rounded-xl">
+                  <Text className="text-base font-semibold text-gray-50">
+                    Added
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={handlePressCart}
+                  className="bg-black px-4 py-2 rounded-xl"
+                >
+                  <Text className="text-base font-semibold text-gray-50">
+                    Cart
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </>
