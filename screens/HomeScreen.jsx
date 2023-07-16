@@ -6,11 +6,12 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialIcons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 import { Screen3 } from '../assets'
+import { fetchFeeds } from '../sanity'
 
 const HomeScreen = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -19,6 +20,21 @@ const HomeScreen = () => {
   const handleSearchTerm = (text) => {
     setSearchTerm(text)
   }
+
+  useEffect(() => {
+    setIsLoading(true)
+    try {
+      fetchFeeds().then((res) => {
+        console.log(res)
+        setInterval(() => {
+          setIsLoading(false)
+        }, 2000)
+      })
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
+  }, [])
 
   return (
     <SafeAreaView className="flex-1 items-center justify-start bg-[#EBEAEF]">

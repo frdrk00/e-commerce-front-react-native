@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { HomeScreen, OnBoardingScreen } from './screens'
 
+import 'react-native-url-polyfill/auto'
+
 const Stack = createNativeStackNavigator()
 
 export default function App() {
