@@ -6,17 +6,32 @@ import {
   Image,
   FlatList,
   ScrollView,
+  TextInput,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Entypo, FontAwesome5 } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
 import { EmptyCart } from '../assets'
+import { useEffect, useState } from 'react'
 
 const CartScreen = () => {
   const navigation = useNavigation()
-
   const cartItems = useSelector((state) => state.cartItems.cart)
   // console.log('CartItems: ', cartItems)
+
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    let mainTotal = 0
+    if (cartItems?.length > 0) {
+      cartItems.map((item) => {
+        // console.log(item.data.price * item.qty)
+        mainTotal += item.data.price * item.qty
+
+        setTotal(mainTotal)
+      })
+    }
+  }, [cartItems])
 
   return (
     <SafeAreaView className="flex-1 w-full items-start justify-start bg-[#EBEAEF] space-y-4">
@@ -54,6 +69,72 @@ const CartScreen = () => {
                 <CartItemCard item={item.data} qty={item.qty} />
               )}
             />
+          </View>
+
+          {/* Promo code section */}
+          <View className="w-full p-8">
+            <View className="w-full px-2 h-16 rounded-xl bg-white flex-row items-center justify-center">
+              <TextInput
+                placeholder="Promo Code"
+                className="text-base px-4 font-semibold text-[#555] flex-1 py-1 "
+              />
+              <TouchableOpacity className="px-3 py-2 rounded-xl bg-black">
+                <Text className="text-white text-lg">Apply</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Total calculation */}
+          <View className="px-8 w-full space-y-4">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-lg font-semibold text-[#555]">
+                Subtotal
+              </Text>
+              <View className="flex-row items-center justify-center space-x-1">
+                <Text className="text-xl font-semibold text-black">
+                  ${parseFloat(total).toFixed(2)}
+                </Text>
+                <Text className="text-sm uppercase text-gray-500">USD</Text>
+              </View>
+            </View>
+
+            <View className="w-full h-[2px] bg-white"></View>
+
+            {/* shipping */}
+            <View className="flex-row items-center justify-between">
+              <Text className="text-lg font-semibold text-[#555]">
+                Shipping Cost
+              </Text>
+              <View className="flex-row items-center justify-center space-x-1">
+                <Text className="text-xl font-semibold text-black">$ 5.0</Text>
+                <Text className="text-sm uppercase text-gray-500">USD</Text>
+              </View>
+            </View>
+            <View className="w-full h-[2px] bg-white"></View>
+
+            {/* grand total */}
+            <View className="flex-row items-center justify-between">
+              <Text className="text-lg font-semibold text-[#555]">
+                Shipping Cost
+              </Text>
+              <View className="flex-row items-center justify-center space-x-1">
+                <Text className="text-sm text-gray-500 mr-4">
+                  ({cartItems?.length}) items
+                </Text>
+                <Text className="text-xl font-semibold text-black">
+                  ${parseFloat(total + 5.0).toFixed(2)}
+                </Text>
+                <Text className="text-sm uppercase text-gray-500">USD</Text>
+              </View>
+            </View>
+          </View>
+
+          <View className="w-full px-8 my-4">
+            <TouchableOpacity className="w-full p-2 py-3 rounded-xl bg-black flex items-center justify-center">
+              <Text className="text-lg text-white font-semibold">
+                Proceed to checkout
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       )}
