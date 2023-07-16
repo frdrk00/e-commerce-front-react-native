@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   View,
   Image,
@@ -6,16 +8,21 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native'
-import { useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { useDispatch, useSelector } from 'react-redux'
+
 import { MaterialIcons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
+
 import { Screen3 } from '../assets'
 import { fetchFeeds } from '../sanity'
+import { SET_FEEDS } from '../context/actions/feedsActions'
 
 const HomeScreen = () => {
+  const dispatch = useDispatch()
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const feeds = useSelector((state) => state.feeds)
 
   const handleSearchTerm = (text) => {
     setSearchTerm(text)
@@ -25,7 +32,9 @@ const HomeScreen = () => {
     setIsLoading(true)
     try {
       fetchFeeds().then((res) => {
-        console.log(res)
+        //console.log(res)
+        dispatch(SET_FEEDS(res))
+        console.log('Feeds from Store: ', feeds.feeds)
         setInterval(() => {
           setIsLoading(false)
         }, 2000)
