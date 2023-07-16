@@ -1,4 +1,5 @@
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import {
   View,
@@ -18,6 +19,9 @@ const ProductScreen = ({ route }) => {
   const feeds = useSelector((state) => state.feeds)
   const [data, setData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [qty, setQty] = useState(1);
+  
+  const navigation = useNavigation()
 
   const screenHeight = Math.round(Dimensions.get('window').height)
 
@@ -32,6 +36,11 @@ const ProductScreen = ({ route }) => {
     }
   }, [])
 
+  const handleQty = (action) => {
+    const newQty = qty + action
+    setQty(newQty >= 1 ? newQty : 1)
+  }
+
   return (
     <View className="flex-1 items-start justify-start bg-[#EBEAEF] space-y-4">
       {isLoading ? (
@@ -43,7 +52,7 @@ const ProductScreen = ({ route }) => {
           <SafeAreaView className="w-full">
             {/* Top section */}
             <View className="flex-row items-center justify-between px-4 py-2 w-full">
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Entypo name="chevron-left" size={32} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity>
@@ -114,11 +123,11 @@ const ProductScreen = ({ route }) => {
               </Text>
 
               <View className="flex-row items-center justify-center space-x-4 rounded-xl border border-gray-200 px-4 py-1">
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => handleQty(-1)}>
                   <Text className="text-xl font-bold text-[#555]">-</Text>
                 </TouchableOpacity>
-                <Text className="text-xl font-bold text-black">1</Text>
-                <TouchableOpacity onPress={() => {}}>
+                <Text className="text-xl font-bold text-black">{qty}</Text>
+                <TouchableOpacity onPress={() => handleQty(+1)}>
                   <Text className="text-xl font-bold text-[#555]">+</Text>
                 </TouchableOpacity>
               </View>
