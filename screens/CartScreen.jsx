@@ -1,5 +1,12 @@
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View, Text, TouchableOpacity, Image, FlatList, ScrollView } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  ScrollView,
+} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Entypo, FontAwesome5 } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
@@ -54,10 +61,49 @@ const CartScreen = () => {
   )
 }
 
-export const CartItemCard = (item, qty) => {
+export const CartItemCard = ({ item, qty }) => {
+  // console.log('Item: ', item)
   return (
-    <View>
-      <Text>CartItemCard</Text>
+    <View className="flex-row px-6 w-full items-center my-1">
+      {/* Image */}
+      <View className="bg-white rounded-xl flex items-center justify-center p-2 w-16 h-16 relative">
+        <Image
+          source={{ uri: item?.bgImage?.asset?.url }}
+          resizeMode="cover"
+          className="w-full h-full opacity-30"
+        />
+        <View className="inset-0 absolute  flex items-center justify-center ">
+          <Image
+            source={{ uri: item?.mainImage?.asset?.url }}
+            resizeMode="contain"
+            className="w-12 h-12"
+          />
+        </View>
+      </View>
+
+      {/* Text section */}
+      <View className="flex items-center space-y-2 ml-3">
+        <View className="flex items-start justify-center">
+          <Text className="text-lg font-semibold text-[#555]">
+            {item.title}
+          </Text>
+          <Text className="text-sm font-semibold text-[#777]">
+            {item.shortDescription}
+          </Text>
+          {/* <View className="flex-row items-center justify-center space-x-1">
+            <Text>$ {item.price * qty}</Text>
+            <Text>( Qty : {qty} )</Text>
+          </View> */}
+          <Text className="text-lg font-bold text-black">
+            $ {item.price * qty}
+          </Text>
+        </View>
+      </View>
+
+      {/* Qty section */}
+      <View className="flex-row items-center justify-center space-x-4 rounded-xl border border-gray-300 px-3 py-1 ml-auto">
+        <Text className="text-lg font-bold text-black">{qty}</Text>
+      </View>
     </View>
   )
 }
