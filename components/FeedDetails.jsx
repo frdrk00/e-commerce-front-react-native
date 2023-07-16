@@ -1,5 +1,4 @@
 import { View, Text, Dimensions, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
