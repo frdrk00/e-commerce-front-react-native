@@ -38,9 +38,9 @@ const HomeScreen = () => {
     setIsLoading(true)
     try {
       fetchFeeds().then((res) => {
-        //console.log(res)
+        // console.log(res)
         dispatch(SET_FEEDS(res))
-        console.log('Feeds from Store: ', feeds?.feeds)
+        // console.log('Feeds from Store: ', feeds?.feeds)
         setInterval(() => {
           setIsLoading(false)
         }, 2000)

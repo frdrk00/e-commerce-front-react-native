@@ -1,14 +1,22 @@
 import { View, Text, Dimensions, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 const FeedDetails = ({ data }) => {
   const screenWidth = Math.round(Dimensions.get('window').width)
   const cardWidth = screenWidth / 2 - 20
   // console.log(screenWidth)
 
+  const navigation = useNavigation()
+
+  const handleClick = () => {
+    navigation.navigate('ProductScreen', { _id: data._id })
+  }
+
   return (
-    <View
+    <TouchableOpacity
+      onPress={handleClick}
       className="p-4 rounded-xl bg-white flex items-center justify-center"
       style={{ width: cardWidth }}
     >
@@ -31,10 +39,10 @@ const FeedDetails = ({ data }) => {
         </Text>
 
         <TouchableOpacity className="bg-black w-8 h-8 rounded-full flex items-center justify-center">
-          <AntDesign name="heart" size={16} color={'#fbfbfb'}/>
+          <AntDesign name="heart" size={16} color={'#fbfbfb'} />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
