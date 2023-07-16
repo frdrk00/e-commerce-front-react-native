@@ -17,6 +17,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { Screen3 } from '../assets'
 import { fetchFeeds } from '../sanity'
 import { SET_FEEDS } from '../context/actions/feedsActions'
+import { Feeds } from '../components'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const HomeScreen = () => {
       fetchFeeds().then((res) => {
         //console.log(res)
         dispatch(SET_FEEDS(res))
-        console.log('Feeds from Store: ', feeds.feeds)
+        console.log('Feeds from Store: ', feeds?.feeds)
         setInterval(() => {
           setIsLoading(false)
         }, 2000)
@@ -80,7 +81,7 @@ const HomeScreen = () => {
             <ActivityIndicator size={'large'} color={'teal'} />
           </View>
         ) : (
-          <></>
+          <Feeds feeds={feeds?.feeds} />
         )}
       </ScrollView>
     </SafeAreaView>
