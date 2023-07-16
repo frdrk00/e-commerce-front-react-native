@@ -23,10 +23,15 @@ const HomeScreen = () => {
   const dispatch = useDispatch()
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [filtered, setFiltered] = useState(null)
+
   const feeds = useSelector((state) => state.feeds)
 
   const handleSearchTerm = (text) => {
     setSearchTerm(text)
+    setFiltered(feeds?.feeds.filter((item) => item.title.includes(text)))
+
+    // console.log('Filtered Data: ',feeds?.feeds.filter((item) => item.title.includes(text)))
   }
 
   useEffect(() => {
@@ -81,7 +86,9 @@ const HomeScreen = () => {
             <ActivityIndicator size={'large'} color={'teal'} />
           </View>
         ) : (
-          <Feeds feeds={feeds?.feeds} />
+          <Feeds
+            feeds={filtered || filtered?.length > 0 ? filtered : feeds?.feeds}
+          />
         )}
       </ScrollView>
     </SafeAreaView>
